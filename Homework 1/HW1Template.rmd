@@ -1,0 +1,65 @@
+---
+title: "Homework X"
+author: "Your Name Goes Here"
+date: "`r Sys.Date()`"
+output: openintro::lab_report
+---
+
+```{r load-packages, message=FALSE}
+library(tidyverse)
+library(openintro)
+```
+
+### Problem 1
+#### Part a)
+Type your work here. Same idea as for all the various parts of problems.
+
+#### Part b)
+#### Part c)
+
+### Problem 2
+#### Part a)
+#### Part b)
+#### Part c)
+#### Part d)
+#### Part e)
+
+### Problem 3
+#### Part a)
+#### Part b)
+#### Part c)
+#### Part d)
+#### Part e)
+
+### Problem 4
+#### Part a)
+#### Part b)
+
+### Problem 5
+#### Part a)
+#### Part b)
+#### Part c)
+#### Part d)
+
+### Problem 6
+
+#### Part a)
+#### Part b)
+#### Part c)
+
+### Problem 7
+``` {r Read in Patient Data}
+PDat <- read_csv("Patient_Data.csv")
+# Create a factor variable for Sex; the levels will be in alphabetical order
+PDat$Sex <- factor(PDat$Sex)
+# Create a factor variable with a specified order to the levels
+# Marital status is not an ordinal variable, but you can still set the
+# order of the levels to control the order they are printed in output
+PDat$MaritalStat <- factor(PDat$MaritalStat, level=c("S","M","D","W"))
+PDat %>% count(Sex)
+PDat.F <- PDat %>% filter(Sex == "F")
+glimpse(PDat.F)
+```
+#### Part a)
+#### Part b)
+#### Part c)

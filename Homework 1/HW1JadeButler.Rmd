@@ -1,0 +1,187 @@
+---
+title: "Homework 1"
+author: "Jade Butler"
+date: "`r Sys.Date()`"
+output: openintro::lab_report
+---
+
+```{r load-packages, message=FALSE}
+library(tidyverse)
+library(openintro)
+library(rmarkdown)
+library(dplyr)
+```
+
+### Problem 1
+
+#### Part a)
+
+year of launch (1957-1999, 2000-2018), outcome (failure, success) and agency (private, state, startup)
+
+#### Part b)
+
+1. year of launch is a numerical variable, discrete
+2. outcome of launch is categorical variable within two levels (success or failure) it is not ordinal rather nominal as it cannot be ordered by level or increments
+3. type of agency is also categorical with three levels (state, private and startup) it is also nominal.
+
+#### Part c)
+
+the outcome of the launch would be the response variable.
+type of launching agency and launch year would be the explanatory variables.
+
+### Problem 2
+
+#### Part a)
+
+this is an observational study as it only entails observation and recording of data with no treatments.
+
+#### Part b)
+
+the explanatory variables are screen time of teenagers between 12 and 15, sex, age, mother's education, psychological distress, and employment status of said teenagers.
+
+#### Part c)
+
+the response variable is adolescent well-being.
+
+#### Part d)
+
+The results of the study could be generalized to the population because the sample size is large-scale and represents three large countries.
+
+#### Part e)
+
+The results of the study can also be used to establish casual relationships because it is known that screen time can have a negative impact on mind-set's.
+
+### Problem 3
+
+#### Part a)
+
+simple random sampling
+
+pros: large enough sample allows for a lack of bias, it is simple hence the name 'simple random sampling'.
+
+cons: large amount of capital needed to retrieve and contact specific population, time consuming, potential bias if given sample isn't actually large enough to adequately represent population.
+
+#### Part b)
+
+stratified sampling
+
+pros: division into subgroups allows for a greatly diverse sample population with adequate representation.
+
+cons: hard to identify every single member of population to divide into subgroups and further more it is difficult to define and entire population.
+
+#### Part c)
+
+cluster sampling
+
+pros: requires fewer resources and more feasible as dividing an entire population into homogeneous groups is easier than division into subgroups.
+
+cons: prone to bias if homogeneous groups were formed under biased opinions, prone to higher sampling errors.
+
+#### Part d)
+
+multistage sampling
+
+pros: easier and more affordable than other sampling methods, can be indefinite to continually break groups down into smaller groups until desired sample size is reached.
+
+cons: study's findings can never truly represent 100% of the population as there is no way to know if the demographics cut from the study could have provided valuable data.
+
+#### Part e)
+
+convenience sampling
+
+pros: simple and easy to conduct, helpful to generate hypothesis, quick data collection and very affordable compared to other sampling methods.
+
+cons: very vulnerable to selection bias and influence, danger of high levels of sampling errors, studies using such a method often lack credibility compared to other sampling methods.
+
+### Problem 4
+
+#### Part a)
+
+population of interest is children between the ages 5-15, sample is 160 children
+
+#### Part b)
+
+I would argue that the results of this study could really only be used to establish casual relationships rather than to be generalized to the greater population is the sample size is quite small. However if the sample is randomly selected it could be more readily available to generalize to the population.
+
+### Problem 5
+
+#### Part a)
+
+variable
+
+#### Part b)
+
+sample statistic
+
+#### Part c)
+
+observation
+
+#### Part d)
+
+parameter
+
+### Problem 6
+
+#### Part a)
+$C=2 * \pi * r$
+
+$A=\pi * r^2$
+
+
+#### Part b)
+
+```` {r problem 6 code}
+rad=c(0.5,2) #
+C=2*pi*rad #
+C # 
+````
+
+#### Part c)
+
+with the two radius values listed, the function output gave us two circumference values that proportionately increase with the increase in circumference value. Those values are; radius=0.5 > circumference=3.14 or pi, when the radius=2 > circumference=12.56
+
+### Problem 7
+
+````{r Read in Patient Data}
+PDat <- read_csv("Patient_Data.csv")
+# Create a factor variable for Sex; the levels will be in alphabetical order
+PDat$Sex <- factor(PDat$Sex)
+# Create a factor variable with a specified order to the levels
+# Marital status is not an ordinal variable, but you can still set the
+# order of the levels to control the order they are printed in output
+PDat$MaritalStat <- factor(PDat$MaritalStat, level=c("S","M","D","W"))
+PDat %>% count(Sex)
+PDat.F <- PDat %>% filter(Sex == "F")
+glimpse(PDat.F)
+
+````
+
+#### Part a)
+
+````{r Read in Patient Data 2}
+PDat <- read_csv("Patient_Data.csv")
+PDat.W <- PDat %>% filter(MaritalStat == "W")
+P <- 100*(count(PDat.W) / count(PDat)) 
+P
+````
+
+#### Part b)
+
+````{r Read in Patient Data 3}
+
+PDat.M <- PDat %>% filter(MaritalStat == "M")
+glimpse(PDat.M)
+
+````
+
+#### Part c)
+
+````{r Read in Patient Data 4}
+
+PDat.PM <- PDat.M %>% filter(Sex == "M")
+M <- 100*(count(PDat.PM) / count(PDat.M))
+M
+
+````
+
