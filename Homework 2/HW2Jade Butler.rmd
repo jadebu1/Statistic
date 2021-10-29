@@ -1,0 +1,185 @@
+---
+title: "Homework 2"
+author: "Jade Butler"
+date: "`r Sys.Date()`"
+output: openintro::lab_report
+---
+
+```{r load-packages, message=FALSE}
+library(tidyverse)
+library(openintro)
+library(rmarkdown)
+```
+
+### Problem 1
+
+#### a)
+
+Mean A: 8, Mean B: 8.78, Mean B is larger than mean A.
+SD A: 3.39, SD B: 4.92, the standard deviation of B is larger than that of A
+
+#### b)
+
+Mean A: 5, Mean B: 25, Mean B is larger than mean A.
+SD A: 3.42, SD B: 3.42, even though their range is completely different their SD is the same meaning the dispersion of data is equal.
+
+#### c)
+
+Median A: 6, Median  B: 7, median B is larger than median A.
+IQR A: 4, IQR B: 4.5, IQR of B is larger meaning the middle data points are more spread out.
+
+#### d)
+
+Median A: 6, Median B: 6, their median is equal.
+IQR A: 4, IQR B: 9.5, the middle data points of B are more spread out than A which demonstrates the larger IQR of dataset B. 
+
+### Problem 2
+
+the test is negatively skewed with a left-skewed distribution. The majority of the scores will fall on the right side of the distribution. Also, the distribution on the scores of the test is not symmetric.
+
+### Problem 3
+
+In this case, the mean is greater than the median (Median:100, Mean: 190), the shape of this distribution is right skewed.
+
+### Problem 4
+#### a)
+````{r Education and PartyA}
+EduLvl <- read.csv("GallupByEd.csv")
+PartyPref <- read.csv("GallupByPI.csv")
+EduLvl$Education <- factor(EduLvl$Education, level=c("College Grad", "Some College", "HS Grad"))
+PartyPref$PartyID <- factor(PartyPref$PartyID)
+````
+#### b)
+````{r Education and PartyB}
+EduLvl %>%
+  count(Education,Response)
+PartyPref %>%
+  count(PartyID,Response)
+````
+#### c)
+````{r Education and PartyC}
+In <- PartyPref %>% filter(PartyID == "I")
+Per <- In %>% filter(Response == "4")
+P <- 100*(count(Per) / count(PartyPref))
+P
+````
+#### d)
+````{r Education and PartyD}
+
+CG <- EduLvl %>% filter(Education == "College Grad")
+Cgg <- 100*(count(CG) / count(EduLvl))
+Cgg
+
+SC <- EduLvl %>% filter(Education == "Some College")
+Scc <- 100*(count(SC) / count(EduLvl))
+Scc
+
+HS <- EduLvl %>% filter(Education == "HS Grad")
+Hss <- 100*(count(HS) / count(EduLvl))
+Hss
+````
+#### e)
+````{r Education and PartyE}
+
+EduLvl %>%
+  count(Education,Response) %>%
+  mutate(prop = n / sum(n)) %>%
+  pivot_wider(id_cols = c(Education, Response, prop), 
+              names_from = Education, values_from = prop)
+PartyPref %>%
+  count(PartyID,Response) %>%
+  mutate(prop = n / sum(n)) %>%
+  pivot_wider(id_cols = c(PartyID, Response, prop), 
+              names_from = PartyID, values_from = prop)
+````
+#### f)
+````{r Education and PartyF}
+ggplot(EduLvl, aes(x = Education, fill = Response)) +
+  geom_bar(position = "fill") +
+  ylab("Environmental Policy Support" )
+ggplot(EduLvl, aes(x = Response, fill = Education)) +
+  geom_bar(position = "fill") +
+  ylab("Environmental Policy Support" )
+````
+
+
+The bar plot displaying Education Level vs support of Environmental policy (with the fill as the response) doesn't show much information except that all three levels of education display some support for it just it does not quantify how much. The bar plot with education within the bars themselves gives the viewer much more data but still fails to show the factor variable "HS Grad".
+
+#### g)
+From this bar graph, the viewer can infer that those with a high school education are more likely to support environmental policy than those with a complete college education.
+
+### Problem 5
+#### a)
+
+This study was an experiment as 160 participants were enrolled and then 4 types of diets were randomly assigned to the group.
+
+#### b)
+
+Overweight or obese adults with a BMI between 27-42, mean: 35. These adults were between ages 22-72. They were also diagnosed with hypertension, dyslipidemia, or fasting hyperglycemia.
+
+The general population of interest is obese or overweight adults. 
+
+#### c)
+
+The population of interest is obese or overweight adults with diagnosed health ailments that are caused by obesity. With a large sample size and randomization of treatments, these results have potential to be generalized towards the population of interest.
+
+#### d)
+````{r Diets D}
+PopDiets <- read.csv("PopularDiets.csv")
+PopDiets$Diet <- factor(PopDiets$Diet, level=c("Atkins", "Ornish", "WW", "Zone"))
+PopDiets$Completion <- factor(PopDiets$Completion, level=c("completed", "not completed"))
+PopDiets %>%
+  count(Completion)
+Comp <- PopDiets %>% filter(Completion == "completed") 
+NC <- PopDiets %>% filter(Completion == "not completed")
+````
+#### e)
+````{r Diets E}
+(sum.weightloss <- PopDiets %>% summarize(Min = min(WtLossKG, na.rm=TRUE), 
+                                  Q1 = quantile(WtLossKG, 0.25, na.rm=TRUE),
+                                  Median = quantile(WtLossKG, 0.5, na.rm=TRUE),
+                                  Q3 = quantile(WtLossKG, 0.75, na.rm=TRUE),
+                                  Max = max(WtLossKG, na.rm=TRUE),
+                                  mean = mean(WtLossKG, na.rm=TRUE),
+                                  SD = sd(WtLossKG, na.rm=TRUE)))
+
+ggplot(data = PopDiets, aes(x = WtLossKG)) +
+         geom_dotplot(dotsize = 0.4, method="histodot", binwidth=2) + xlab("Weight Loss in Kg") + theme(axis.text.y=element_blank(),axis.ticks.y=element_blank(),axis.title.y=element_blank())
+
+ggplot(data = PopDiets, aes(x = WtLossKG)) +
+  geom_histogram(aes(y = ..density..), bins = 10,
+                 colour = 1, fill = "white") + 
+  xlab("Patient Weight Loss (KGs)") + geom_density() + theme(axis.text.y=element_blank(),axis.ticks.y=element_blank(),axis.title.y=element_blank())
+````
+
+We can see from both graphs summarizing the spread of weight loss by KG, overall most patients lost between 0-9kgs which is consistent with both the median of 3.9kgs and the mean of 4.9kgs. We can also see two outlier statistics with the max being 28.7kgs and the min being -10.2 kgs. These values are not consistent with the majority of the data. Finally, this data set is skewed left with the median being smaller than the mean by 1kg.
+
+#### f)
+````{r Diets F}
+PopDiets %>%
+  filter(Diet == "Atkins") %>%
+  ggplot(aes(x = WtLossKG)) +
+  geom_histogram(bins = 10, colour = 1, fill = "white") + 
+  xlab("Patient Weight Loss Atkins Diet KG")
+PopDiets %>%
+  filter(Diet == "Ornish") %>%
+  ggplot(aes(x = WtLossKG)) +
+  geom_histogram(bins = 10, colour = 1, fill = "white") + 
+  xlab("Patient Weight Loss Ornish Diet KG")
+PopDiets %>%
+  filter(Diet == "WW") %>%
+  ggplot(aes(x = WtLossKG)) +
+  geom_histogram(bins = 10, colour = 1, fill = "white") + 
+  xlab("Patient Weight Loss WW Diet KG")
+PopDiets %>%
+  filter(Diet == "Zone") %>%
+  ggplot(aes(x = WtLossKG)) +
+  geom_histogram(bins = 10, colour = 1, fill = "white") + 
+  xlab("Patient Weight Loss Zone Diet KG")
+
+````
+
+All diets seem so have average weightloss between 0-10kgs, additionally all of the diets seem to be left skewed.
+
+
+

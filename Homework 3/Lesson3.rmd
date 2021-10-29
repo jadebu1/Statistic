@@ -1,0 +1,200 @@
+---
+title: "Lesson 3"
+author: "Tamre Cardoso"
+date: "`r Sys.Date()`"
+output: openintro::lab_report
+---
+
+```{r load-packages, message=FALSE}
+library(tidyverse)
+library(openintro)
+library(car) # for scatterplot function
+library (ggpubr) #for ggarrange function
+```
+
+### Read or Load Data
+
+```{r read data}
+# Load air quality data set
+data(airquality)
+
+# Load iris data set
+data(iris)
+
+Diet <- read_csv("Diet.csv")
+# Create a factor variable for Sex; the levels will be in alphabetical order
+Diet$Sex <- factor(Diet$Sex)
+Diet$Diet <- factor(Diet$Diet)
+Diet$WtLoss <- Diet$WtPre - Diet$WtPost
+```
+
+### Quick summaries for Ozone and Temperature
+```{r summaries}
+summary(airquality$Ozone)
+summary(airquality$Temp)
+
+# Ozone has 37 missing values
+# Create a new data set with Ozone, Temp, Month
+# Use only complete cases
+AQSmall <- select(airquality, Ozone, Temp, Month)
+AQSmall <- AQSmall %>% filter(!is.na(Ozone))
+AQSmall$Month <- factor(AQSmall$Month)
+levels(AQSmall$Month)
+AQSmall$Month <- recode_factor(AQSmall$Month, 
+                               "5" = "May", "6" = "Jun", "7" = "Jul",
+                               "8" = "Aug", "9" = "Sep")
+```
+### Histograms
+```{r histogram}
+# ggplot 6 bin histograms
+h1 <- ggplot(data = AQSmall, aes(x = Temp)) +
+  geom_histogram(bins = 6, colour = 1, fill = "white") + xlab("Temperature (F)")
+h2 <- ggplot(data = AQSmall, aes(x = Ozone)) +
+  geom_histogram(bins = 6, colour = 1, fill = "white") + xlab("Ozone (ppb)")
+
+# add histogram with natural log transformation
+h3 <- ggplot(data = AQSmall, aes(x = log(Ozone))) +
+  geom_histogram(bins = 6, colour = 1, fill = "white") + xlab("ln(Ozone (ppb))")
+ggarrange(h1, h2, h3 + rremove("x.text"),
+          ncol = 2, nrow = 2)
+
+# group Temperature by Month using facet_wrap
+ggplot(data = AQSmall, aes(x = Temp, fill = Month, colour=Month)) +
+  geom_histogram(bins = 6, alpha = 0.5, position="identity") + 
+  xlab("Temperature (F)") + facet_wrap(~Month)
+
+# group Ozone by Month using facet_wrap
+ggplot(data = AQSmall, aes(x = Ozone, fill = Month, colour=Month)) +
+  geom_histogram(bins = 6, alpha = 0.5, position="identity") + 
+  xlab("Ozone (ppb)") + facet_wrap(~Month)
+```
+
+### Bivariate plot
+
+```{r scatterplot}
+scatterplot(AQSmall$Temp, AQSmall$Ozone, # Data
+            pch = 19,                    # Symbol for the points
+            col = 1,                     # Color of the points
+            smooth = FALSE,              # Remove smooth estimate
+            regLine = FALSE,
+            xlab = "Temperature (F)", ylab = "Ozone (ppb)",
+            cex.axis = 1.2, cex.lab = 1.2, cex = 1.2)
+cor(AQSmall$Temp, AQSmall$Ozone)
+```
+
+### Scatter with Color by Group
+```{r Scatterplot by Month}
+# Change point shapes by the levels of Month
+ggplot(AQSmall, aes(x=Temp, y=Ozone, shape=Month)) +
+  geom_point()
+# Change point colors by the levels of Month
+ggplot(AQSmall, aes(x=Temp, y=Ozone, color=Month)) +
+  geom_point()
+# Change point shapes and colors
+ggplot(AQSmall, aes(x=Temp, y=Ozone, shape=Month, color=Month)) +
+  geom_point()
+# Change point shapes, colors and sizes
+# Note using a continuous variable for size
+ggplot(AQSmall, aes(x=Temp, y=Ozone, shape=Month,
+                    color=Month, size=Ozone)) +
+  geom_point()
+```
+
+### Transformations
+```{r scatterplots with transform}
+par(mfrow=c(2,2))
+plot(AQSmall$Temp, AQSmall$Ozone, 
+            pch = 19, col = 1,            
+            xlab = "Temperature (F)", ylab = "Ozone (ppb)",
+            cex.axis = 1.2, cex.lab = 1.2, cex = 1.2)
+plot(AQSmall$Temp, log(AQSmall$Ozone), 
+            pch = 19, col = 1,            
+            xlab = "Temperature (F)", ylab = "ln(Ozone (ppb))",
+            cex.axis = 1.2, cex.lab = 1.2, cex = 1.2)
+plot(log(AQSmall$Temp), AQSmall$Ozone, 
+            pch = 19, col = 1,            
+            xlab = "ln(Temperature (F))", ylab = "Ozone (ppb)",
+            cex.axis = 1.2, cex.lab = 1.2, cex = 1.2)
+plot(log(AQSmall$Temp), log(AQSmall$Ozone), 
+            pch = 19, col = 1,            
+            xlab = "ln(Temperature (F))", ylab = "ln(Ozone (ppb))",
+            cex.axis = 1.2, cex.lab = 1.2, cex = 1.2)
+
+# single scatterplot with log ozone
+# Using Base R
+par(mfrow=c(1,1))
+plot(AQSmall$Temp, log(AQSmall$Ozone), 
+            pch = 19, col = 1,            
+            xlab = "Temperature (F)", ylab = "ln(Ozone (ppb))",
+            cex.axis = 1.2, cex.lab = 1.2, cex = 1.2)
+abline(v = mean(AQSmall$Temp))
+abline(h = mean(log(AQSmall$Ozone)))
+
+# Using ggplot2
+# Basic scatter plot with lines
+s1 <- ggplot(AQSmall, aes(x=Temp, y=log(Ozone))) + 
+  geom_point(size=1, shape=19) + xlab("Temperature (F)") +
+  ylab("ln(Ozone (ppb))")
+yint <- mean(log(AQSmall$Ozone))
+xint <- mean(AQSmall$Temp)
+s1 + geom_hline(yintercept = yint) +
+  geom_vline(xintercept = xint)
+```
+
+### Simple Linear Regression
+```{r SLR}
+# Explore iris sepal length and width
+?iris
+plot(iris$Sepal.Length, iris$Petal.Length, 
+     xlab="Sepal Length (cm)",
+     ylab="Petal Length (cm)", pch=19)
+cor(iris$Sepal.Length, iris$Petal.Length)
+
+# Fit regression line
+lm1.out <- lm(iris$Petal.Length ~ iris$Sepal.Length)
+summary(lm1.out)
+summary(iris$Sepal.Length)
+plot(iris$Sepal.Length, iris$Petal.Length, 
+     xlab="Sepal Length (cm)",
+     ylab="Petal Length (cm)", pch=19)
+abline(lm1.out, lty=2, lwd=2, col="blue")
+points(mean(iris$Sepal.Length), mean(iris$Petal.Length),
+       pch=19, col="green")
+
+# Regression of x on y
+lm2.out <- lm(iris$Sepal.Length ~ iris$Petal.Length)
+summary(lm2.out)
+plot(iris$Petal.Length, iris$Sepal.Length, 
+     xlab="Petal Length (cm)",
+     ylab="Sepal Length (cm)", pch=19)
+abline(lm2.out, lty=2, lwd=2, col="blue")
+points(mean(iris$Petal.Length), mean(iris$Sepal.Length),
+       pch=19, col="green")
+```
+
+### Create Residual Plots
+```{r Residual Plot}
+# Residual plot for fitted regression using x values
+plot(iris$Sepal.Length, residuals(lm1.out),
+     xlab="Sepal.Length (cm)", ylab="Residuals")
+abline(h=0)
+
+# Residual plot for fitted regression using fitted values
+plot(fitted(lm1.out), residuals(lm1.out),
+     xlab="Fitted Values", ylab="Residuals")
+abline(h=0)
+```
+
+### Check Normality of Regression Residuals
+```{r Check Normality}
+hist(residuals(lm1.out), xlab="Residuals", main="")
+qqnorm(residuals(lm1.out))
+qqline(residuals(lm1.out))
+```
+
+
+
+
+
+
+

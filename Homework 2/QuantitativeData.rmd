@@ -1,0 +1,144 @@
+---
+title: "Lesson 2, Lectures 2 and 3"
+author: "Tamre Cardoso"
+date: "`r Sys.Date()`"
+output: openintro::lab_report
+---
+  
+```{r load-packages, message=FALSE}
+library(tidyverse)
+library(openintro)
+```
+
+#### Read in data
+```{r read in patient data}
+PDat <- read_csv("Patient_Data.csv")
+# Create a factor variable for Sex; the levels will be in alphabetical order
+PDat$Sex <- factor(PDat$Sex)
+```
+
+#### Dot Plot
+```{r dotplot}
+p1 <- ggplot(data = PDat, aes(x = SystolicP)) +
+         geom_dotplot(dotsize = 0.4, method="histodot", binwidth=2)
+# Create p1 with proper x-axis label
+p1 <- ggplot(data = PDat, aes(x = SystolicP)) +
+         geom_dotplot(dotsize = 0.4, method="histodot", binwidth=2) + xlab("Systolic Pressure (mm Hg)")
+# Add theme to remove y-axis labeling
+p1 + theme(axis.text.y=element_blank(),axis.ticks.y=element_blank(),axis.title.y=element_blank())
+```
+
+#### Stem and Leaf Plot
+```{r stem and leaf}
+stem(PDat$SystolicP)
+```
+
+#### Histograms
+```{r histogram}
+# ggplot default
+ggplot(data = PDat, aes(x = Weight)) +
+  geom_histogram()
+# ggplot binwidth = 10
+ggplot(data = PDat, aes(x = Weight)) +
+  geom_histogram(binwidth = 10)
+# ggplot bins = 10; add proper axis label; add density curve
+ggplot(data = PDat, aes(x = Weight)) +
+  geom_histogram(aes(y = ..density..), bins = 10,
+                 colour = 1, fill = "white") + 
+  xlab("Patient Weight (lbs)") + geom_density()
+# group by a categorical variable
+ggplot(data = PDat, aes(x = Weight, fill = Sex, colour=Sex)) +
+  geom_histogram(bins = 10, alpha = 0.5, position="identity") + 
+  xlab("Patient Weight (lbs)")
+```
+
+#### Filtering Data
+```{r filtering data}
+# We can filter a data set to select subsets of data
+# Instead of plotting all the weight data together
+# we can create subset for males and females
+
+# piped filter
+PDat %>%
+  filter(Sex == "F") %>%
+  ggplot(aes(x = Weight)) +
+  geom_histogram(bins = 10, colour = 1, fill = "white") + 
+  xlab("Patient Weight Females (lbs)")
+PDat %>%
+  filter(Sex == "M") %>%
+  ggplot(aes(x = Weight)) +
+  geom_histogram(bins = 10, colour = 1, fill = "white") + 
+  xlab("Patient Weight Males (lbs)")
+
+# Use a facet wrap instead
+ggplot(data = PDat, aes(x = Weight)) +
+  geom_histogram(bins = 10, colour = 1, fill = "white") + 
+  xlab("Patient Weight (lbs)") + facet_wrap(vars(Sex))
+
+# Saving subsets to use for other calls later
+# PDat.F and PDat.M can be used in other code
+PDat.F <- filter(PDat, Sex == "F")
+PDat.M <- filter(PDat, Sex == "M")
+```
+
+#### Univariate summary statistics for numeric variables
+
+The summary and sd functions quickly provide basic summaries. The full line of code is included in ( ) so that the output of wt.summary and wt.sd are printed. A different function, summarize( ) may be used to customize the summary statistics that you want into one output. See Chapter 3 of Statistical Inference for Data Science for many examples. 
+
+```{r Summary stats}
+# You may need to include the argument na.rm=TRUE to remove
+# observations with missing values
+(wt.summary <- summary(PDat$Weight)) # gives a six number sample summaries
+(wt.sd <- sd(PDat$Weight)) # gives sample standard deviation
+
+# Use summarize function
+# You can add the metrics your want
+# This code shoes min, mean, Q1, Median, Q3, Max and SD
+(sum.weight <- PDat %>% summarize(mean = mean(Weight, na.rm=TRUE),
+                                 SD = sd(Weight, na.rm=TRUE)))
+(sum.weight <- PDat %>% summarize(Min = min(Weight, na.rm=TRUE), 
+                                  Q1 = quantile(Weight, 0.25, na.rm=TRUE),
+                                  Median = quantile(Weight, 0.50,
+                                                    na.rm=TRUE),
+                                  Q3 = quantile(Weight, 0.75, na.rm=TRUE),
+                                  Max = max(Weight, na.rm=TRUE),
+                                  mean = mean(Weight, na.rm=TRUE),
+                                  SD = sd(Weight, na.rm=TRUE)))
+```
+
+#### Boxplots
+```{r ggplot2 boxplots}
+p <- ggplot(PDat, aes(x=Weight, y="")) +
+        geom_boxplot() + 
+        xlab("Patient Weight (lbs)") +
+        ylab("")
+p
+# Rotate the box plot
+p + coord_flip()
+# Notched box plot
+p <- ggplot(PDat, aes(x=Weight, y="")) +
+        geom_boxplot(notch=TRUE) + 
+        xlab("Patient Weight (lbs)") +
+        ylab("")
+p
+```
+
+#### Comparative boxplots
+```{r ggplot2 comparative boxplot}
+# Using ggplot2
+p <- ggplot(PDat, aes(x=Sex, y=Weight)) + 
+  geom_boxplot() + xlab("Sex") +
+  ylab("Patient Weight (lbs)")
+p
+# Rotate the box plot
+p + coord_flip()
+# Notched box plot
+ggplot(PDat, aes(x=Sex, y=Weight)) + 
+  geom_boxplot(notch=TRUE) + xlab("Sex") +
+  ylab("Patient Weight (lbs)")
+# Change outlier, color, shape and size
+ggplot(PDat, aes(x=Sex, y=Weight)) + 
+  geom_boxplot(outlier.colour="red", outlier.shape=8,
+                outlier.size=4) + xlab("Sex") +
+  ylab("Patient Weight (lbs)")
+```       
