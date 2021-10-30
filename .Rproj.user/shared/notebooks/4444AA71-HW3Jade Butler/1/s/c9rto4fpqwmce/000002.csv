@@ -1,2 +1,0 @@
-"0","Pdat <- read.csv(""PlasmaRetinolData.csv"")"
-"0","Pdat %>% filter(BetaDiet == 0 | BetaPlasma == 0) # The vertical bar is ""OR""; use & for ""AND"""
