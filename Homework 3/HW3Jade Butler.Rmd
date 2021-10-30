@@ -45,7 +45,7 @@ Pdat2 <- Pdat %>% filter(BetaDiet>0 & BetaPlasma>0)
 
 #### Part a)
 ```{r scatterplot}
-ggplot(Pdat2, aes(x=Pdat2$BetaDiet, y=Pdat2$BetaPlasma)) +
+h1 <- ggplot(Pdat2, aes(x=Pdat2$BetaDiet, y=Pdat2$BetaPlasma)) +
              geom_point() +  geom_smooth(method = "lm", se = FALSE) +
              xlab("Dietary Beta-carotene (mcg/day)") + 
              ylab("Plasma Beta-carotene (ng/ml)")
@@ -57,7 +57,7 @@ The correlation between Dietary Beta-carotene and Plasma Beta-carotene is positi
 #### Part b)
 
 ```{r scatterplot2}
-ggplot(Pdat2, aes(x=BetaDiet, y=log(BetaPlasma))) + 
+h2 <- ggplot(Pdat2, aes(x=BetaDiet, y=log(BetaPlasma))) + 
   geom_point(size=1, shape=19) + xlab("Dietary Beta-Carotene (mcg/day") +
   ylab("Natural Log Plasma Beta-carotene (ng/ml)")
 cor(Pdat2$BetaDiet, log(Pdat2$BetaPlasma))
@@ -67,7 +67,7 @@ cor(Pdat2$BetaDiet, log(Pdat2$BetaPlasma))
 #### Part c)
 
 ```{r scatterplot3}
-ggplot(Pdat2, aes(x=log(BetaDiet), y=BetaPlasma)) + 
+h3 <- ggplot(Pdat2, aes(x=log(BetaDiet), y=BetaPlasma)) + 
   geom_point(size=1, shape=19) + xlab(" Natural Log Dietary Beta-Carotene (mcg/day") +
   ylab("Plasma Beta-carotene (ng/ml)")
 cor(log(Pdat2$BetaDiet),Pdat2$BetaPlasma)
@@ -77,9 +77,11 @@ With an r coefficient value of 0.203 we have a moderate positive correlation whi
 #### Part d)
 
 ```{r scatterplot4}
-ggplot(Pdat2, aes(x=log(BetaDiet), y=log(BetaPlasma))) + 
+h4 <- ggplot(Pdat2, aes(x=log(BetaDiet), y=log(BetaPlasma))) + 
   geom_point(size=1, shape=19) + xlab(" Natural Log Dietary Beta-Carotene (mcg/day") +
   ylab("Natural Log Plasma Beta-carotene (ng/ml)")
+  ggarrange(h1, h2, h3, h4 + rremove("x.text"),
+          ncol = 2, nrow = 2)
 cor(log(Pdat2$BetaDiet),log(Pdat2$BetaPlasma))
 ```
 With a r coefficient of 0.187, we still have a positive correlation in this natural log data set but it is a weak positive correlation.
@@ -113,7 +115,7 @@ exp(B)
 ```
 ### Problem 7
 
-Beta Plasma would be at about 200 on the original BetaDiet v. BetaPlasma plot and regression line.
+Beta Plasma would be at about 200 on the original BetaDiet v. BetaPlasma plot and regression line. s
 
 ### Problem 8
 
