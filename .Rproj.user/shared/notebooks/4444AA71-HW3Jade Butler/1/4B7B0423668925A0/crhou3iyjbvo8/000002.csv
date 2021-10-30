@@ -1,0 +1,8 @@
+"0","h2 <- ggplot(Pdat2, aes(x=BetaDiet, y=log(BetaPlasma))) + "
+"0","  geom_point(size=1, shape=19) + xlab(""Dietary Beta-Carotene (mcg/day"") +"
+"0","  ylab(""Natural Log Plasma Beta-carotene (ng/ml)"")"
+"0","cor(Pdat2$BetaDiet, log(Pdat2$BetaPlasma))"
+"1","[1]"
+"1"," 0.1944439"
+"1","
+"

@@ -1,0 +1,19 @@
+"0","h4 <- ggplot(Pdat2, aes(x=log(BetaDiet), y=log(BetaPlasma))) + "
+"0","  geom_point(size=1, shape=19) + xlab("" Natural Log Dietary Beta-Carotene (mcg/day"") +"
+"0","  ylab(""Natural Log Plasma Beta-carotene (ng/ml)"")"
+"0","  ggarrange(h1, h2, h3, h4 + rremove(""x.text""),"
+"0","          ncol = 2, nrow = 2)"
+"2","Warning:"
+"2"," Use of `Pdat2$BetaDiet` is discouraged. Use `BetaDiet` instead.
+"
+"2","Warning:"
+"2"," Use of `Pdat2$BetaPlasma` is discouraged. Use `BetaPlasma` instead.
+"
+"2","Warning:"
+"2"," Use of `Pdat2$BetaDiet` is discouraged. Use `BetaDiet` instead.
+"
+"2","Warning:"
+"2"," Use of `Pdat2$BetaPlasma` is discouraged. Use `BetaPlasma` instead.
+"
+"2","`geom_smooth()` using formula 'y ~ x'
+"
