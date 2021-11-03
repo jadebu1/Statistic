@@ -12,3 +12,19 @@ library (ggpubr)
 library(car)
 ```
 
+``` {r poisson distribution}
+ppois(2,1.2)
+
+```
+```{r hypergeometric random variable}
+choose(6,2) * choose(30,2) / choose(36,6)
+
+```
+```{r binomial}
+pbinom(4,6,0.5)
+
+```
+```{r hypergeometric random varible}
+
+choose(10,3) * choose(90,17) *(1/choose(100,20))
+```
