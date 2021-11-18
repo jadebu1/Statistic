@@ -1,0 +1,131 @@
+---
+title: "Homework 5 Solutions"
+author: "Tamre Cardoso"
+date: "`r Sys.Date()`"
+output: openintro::lab_report
+---
+
+```{r load-packages, message=FALSE}
+library(tidyverse)
+library(openintro)
+library(infer)
+```
+
+### Problem 1
+
+If we randomly select two 5lb bags of potatoes and one 10lb bag of potatoes, what is the probability that the sum of the weights of the two 5lb bags exceeds the weight for one 10lb bag?
+
+Xi = weight of randomly selected 5lb bag of potatoes, Distribution is as follows Xi~N(5.34,0.13)
+Y = weight of randomly selected 10lb bag of potatoes, Distribution is as Y~N(10.25, 0.19)
+
+
+### Problem 2
+#### Read in Data
+```{r read in ZOD data}
+ZOD <- read_csv("ZODTwoGroups.csv")
+ZOD$Pie <- factor(ZOD$Pie)
+```
+
+#### Part a)
+```{r comparative boxplot}
+
+```
+
+
+#### Part b)
+```{r create permutations}
+set.seed(12)
+
+
+```
+
+#### Part c)
+The statistical hypotheses are
+
+#### Part d)
+```{r Histogram of Null Distribution}
+
+```
+
+#### Part e)
+```{r p-value}
+
+```
+
+
+#### Part f)
+
+
+### Problem 3
+#### Part a)
+```{r read in wt loss data}
+WL <- read_csv("PopularDietsCombined.csv")
+WL$Diet <- factor(WL$Diet)
+
+```
+
+#### Part b)
+```{r find mean wt loss}
+
+```
+
+
+#### Part c)
+```{r bootstrap samples}
+# code for bootstrap samples given; need to add code for histogram
+set.seed(12)
+# 1000 bootstrap samples so we can display the distribution
+BootSamp1000 <- WL %>%  specify(response = WtLossKG) %>% 
+  generate(reps = 1000, type = "bootstrap") %>% 
+  calculate(stat = "mean")
+```
+
+
+#### Part d)
+```{r get 95 percent CI}
+set.seed(12)
+
+```
+
+
+#### Part e)
+```{r get 90 and 99 percent CI}
+#We want to you repeat set.seed for both sets of samples
+set.seed(12)
+ 
+set.seed(12)
+
+```
+
+
+#### Part f)
+
+
+#### Part g)
+```{r bootstrap samples new}
+# no set.seed in this part
+
+```
+
+#### Part h)
+
+#### Part i)
+```{r smaller bootstrap samples}
+set.seed(12)
+# code provided for n=500; add code for n=100 and n=10
+# 500 bootstrap samples
+WL %>%  specify(response = WtLossKG) %>% 
+  generate(reps = 500, type = "bootstrap") %>% 
+  calculate(stat = "mean") %>%
+  get_ci(level = 0.95)
+  
+set.seed(12) 
+
+
+set.seed(12)  
+
+```
+
+
+...
+
