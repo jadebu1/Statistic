@@ -1,6 +1,6 @@
 ---
-title: "Homework 5 Solutions"
-author: "Tamre Cardoso"
+title: "Homework 5"
+author: "Jade Butler"
 date: "`r Sys.Date()`"
 output: openintro::lab_report
 ---
