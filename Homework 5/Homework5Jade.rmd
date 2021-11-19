@@ -42,7 +42,6 @@ P(U>Y) = 1 - P(z>-0.5695) = 0.71549
 
 The probability that two randomly selected 5lb bags of potatoes weigh more than one 10lb bag of potatoes is 0.71549.
 
-
 ### Problem 2
 #### Read in Data
 ```{r read in ZOD data}
@@ -53,11 +52,9 @@ ZOD$Pie <- factor(ZOD$Pie)
 #### Part a)
 ```{r comparative boxplot}
 ggplot(ZOD, aes(x=Pie, y=ZOD)) + geom_boxplot() + xlab("Pie Type") + ylab("ZOD")
-
 ```
 
 Comparing the types of pie consumed and their respective ZOD duration boxplots, there seems to be significantly less ZOD duration after Apple Pie is consumed compared to when Cherry Pie is consumed.
-
 
 #### Part b)
 ```{r create permutations}
@@ -73,7 +70,7 @@ PermsOut
 
 ```
 
-The observed difference for the statistical data is -3.67.
+The observed difference for the statistical data is 3.67.
 
 #### Part c)
 The statistical hypotheses are the average of Apple Pie's population is considered to be less than the average of the Cherry Pie's population. In other words, the average of the Cherry Pie's population is larger than the Apple Pie's population with the difference being large enough to be statistically significant.
@@ -85,19 +82,21 @@ yheight <- max(table(PermsOut$diff_perm))
 h1 <- ggplot(data = PermsOut, aes(x = diff_perm)) +
   geom_histogram(bins = 13, colour = 1, fill = "white") + xlab("") + geom_vline(xintercept = origdiff, col="Red")
 h1
-
 ```
+The overall spread of the sample is unimodal and pretty symmetric, and although the observed sample is rare, it is where we expected it to be around 3.65. I think this observed difference is fairly skewed because of how different the two population groups are.
 
 #### Part e)
 ```{r p-value}
 PermsOut %>% 
-  summarize(count = sum(diff_orig <= diff_perm),
+  summarize(count = sum(diff_orig >= diff_perm),
             proportion = mean(diff_orig <= diff_perm))
 ```
 
+This P-value implies there is a significant difference between Apple Pie and Cherry Pie which is consistent with our hypothesis and with what we found within the sample and sample difference.
+
 
 #### Part f)
-
+From the hypothesis test allowed me to come to the conclusion that there is a large differences between the ZOD duration of the Apple Pie and the Cherry Pie population.
 
 ### Problem 3
 #### Part a)
