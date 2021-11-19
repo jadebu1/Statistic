@@ -36,6 +36,11 @@ P(U>Y) = P(U-Y>0) = P(V>0)
 
 P(U>Y) = ((V-E(V)/SD(V))>((0-0.43)/sqrt(0.57))
 
+P(U>Y) = P(z>-0.5695)
+
+P(U>Y) = 1 - P(z>-0.5695) = 0.71549
+
+The probability that two randomly selected 5lb bags of potatoes weigh more than one 10lb bag of potatoes is 0.71549.
 
 
 ### Problem 2
@@ -47,8 +52,10 @@ ZOD$Pie <- factor(ZOD$Pie)
 
 #### Part a)
 ```{r comparative boxplot}
+ggplot(ZOD, aes(x=Pie, y=ZOD)) + geom_boxplot() + xlab("Pie Type") + ylab("ZOD")
 
 ```
+Comparing the types of pie consumed and their respective ZOD duration boxplots, there seems to be significantly less ZOD duration after Apple Pie is consumed compared to when Cherry Pie is consumed.
 
 
 #### Part b)
