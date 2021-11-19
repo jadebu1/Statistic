@@ -55,27 +55,44 @@ ZOD$Pie <- factor(ZOD$Pie)
 ggplot(ZOD, aes(x=Pie, y=ZOD)) + geom_boxplot() + xlab("Pie Type") + ylab("ZOD")
 
 ```
+
 Comparing the types of pie consumed and their respective ZOD duration boxplots, there seems to be significantly less ZOD duration after Apple Pie is consumed compared to when Cherry Pie is consumed.
 
 
 #### Part b)
 ```{r create permutations}
 set.seed(12)
+PermsOut <- ZOD %>% 
+   rep_sample_n(size = nrow(ZOD), reps = 1000, replace = FALSE) %>% 
+   mutate(ZOD_perm = sample(ZOD)) %>%
+   group_by(replicate, Pie) %>% 
+   summarize(prop_ZOD_perm = mean(ZOD_perm), prop_ZOD = mean(ZOD)) %>% 
+   summarize(diff_perm = diff(prop_ZOD_perm), diff_orig = diff(prop_ZOD)) 
 
+PermsOut
 
 ```
 
+The observed difference for the statistical data is -3.67.
+
 #### Part c)
-The statistical hypotheses are
+The statistical hypotheses are the average of Apple Pie's population is considered to be less than the average of the Cherry Pie's population. In other words, the average of the Cherry Pie's population is larger than the Apple Pie's population with the difference being large enough to be statistically significant.
 
 #### Part d)
 ```{r Histogram of Null Distribution}
+origdiff <- PermsOut$diff_orig[1]
+yheight <- max(table(PermsOut$diff_perm))
+h1 <- ggplot(data = PermsOut, aes(x = diff_perm)) +
+  geom_histogram(bins = 13, colour = 1, fill = "white") + xlab("") + geom_vline(xintercept = origdiff, col="Red")
+h1
 
 ```
 
 #### Part e)
 ```{r p-value}
-
+PermsOut %>% 
+  summarize(count = sum(diff_orig <= diff_perm),
+            proportion = mean(diff_orig <= diff_perm))
 ```
 
 
