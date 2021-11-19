@@ -96,18 +96,18 @@ This P-value implies there is a significant difference between Apple Pie and Che
 
 
 #### Part f)
-From the hypothesis test allowed me to come to the conclusion that there is a large differences between the ZOD duration of the Apple Pie and the Cherry Pie population.
+From the hypothesis test allowed me to come to the conclusion that there is a large differences between the ZOD duration of the Apple Pie and the Cherry Pie population. Overall the mean for ZOD duration of Cherry Pie is 3.67 greater than the ZOD duration of Apple Pie as found by the observed difference for the statistical data is 3.67.
 
 ### Problem 3
 #### Part a)
 ```{r read in wt loss data}
 WL <- read_csv("PopularDietsCombined.csv")
 WL$Diet <- factor(WL$Diet)
-
+ggplot(WL, aes(x=Diet, y=WtLossKG)) + geom_boxplot() + xlab("Diet Type") + ylab("Weight Loss KG")
 ```
-
 #### Part b)
 ```{r find mean wt loss}
+mean(WL$WtLossKG) 
 
 ```
 
@@ -120,13 +120,24 @@ set.seed(12)
 BootSamp1000 <- WL %>%  specify(response = WtLossKG) %>% 
   generate(reps = 1000, type = "bootstrap") %>% 
   calculate(stat = "mean")
+
+BootSamp1000
+
+B1 <- ggplot(data = BootSamp1000, aes(x = stat )) +
+  geom_histogram(bins = 10, colour = 1, fill = "white") +
+  xlab("phat")
+
+B1
 ```
 
 
 #### Part d)
 ```{r get 95 percent CI}
 set.seed(12)
-
+(BootSamp1000 <- WL %>%  specify(response = WtLossKG) %>% 
+  generate(reps = 1000, type = "bootstrap") %>% 
+  calculate(stat = "mean") %>%
+  get_ci(level = 0.95))
 ```
 
 
@@ -134,8 +145,16 @@ set.seed(12)
 ```{r get 90 and 99 percent CI}
 #We want to you repeat set.seed for both sets of samples
 set.seed(12)
+(BootSamp1000 <- WL %>%  specify(response = WtLossKG) %>% 
+  generate(reps = 1000, type = "bootstrap") %>% 
+  calculate(stat = "mean") %>%
+  get_ci(level = 0.90))
  
 set.seed(12)
+(BootSamp1000 <- WL %>%  specify(response = WtLossKG) %>% 
+  generate(reps = 1000, type = "bootstrap") %>% 
+  calculate(stat = "mean") %>%
+  get_ci(level = 0.99))
 
 ```
 
