@@ -117,13 +117,15 @@ mean(WL$WtLossKG)
 # code for bootstrap samples given; need to add code for histogram
 set.seed(12)
 # 1000 bootstrap samples so we can display the distribution
-BootSamp1000 <- WL %>%  specify(response = WtLossKG) %>% 
+n <- 93 
+samp <- WL %>% sample_n(size = n)
+BootSamp1000A <- samp %>%  specify(response = WtLossKG) %>% 
   generate(reps = 1000, type = "bootstrap") %>% 
   calculate(stat = "mean")
 
-BootSamp1000
+BootSamp1000A
 
-B1 <- ggplot(data = BootSamp1000, aes(x = stat )) +
+B1 <- ggplot(data = BootSamp1000A, aes(x = stat )) +
   geom_histogram(bins = 10, colour = 1, fill = "white") +
   xlab("phat")
 
@@ -134,7 +136,9 @@ B1
 #### Part d)
 ```{r get 95 percent CI}
 set.seed(12)
-(BootSamp1000 <- WL %>%  specify(response = WtLossKG) %>% 
+n <- 93 
+samp <- WL %>% sample_n(size = n)
+(BootSamp1000B <- samp %>%  specify(response = WtLossKG) %>% 
   generate(reps = 1000, type = "bootstrap") %>% 
   calculate(stat = "mean") %>%
   get_ci(level = 0.95))
@@ -145,13 +149,15 @@ set.seed(12)
 ```{r get 90 and 99 percent CI}
 #We want to you repeat set.seed for both sets of samples
 set.seed(12)
-(BootSamp1000 <- WL %>%  specify(response = WtLossKG) %>% 
+n <- 93 
+samp <- WL %>% sample_n(size = n)
+(BootSamp1000C <- samp %>%  specify(response = WtLossKG) %>% 
   generate(reps = 1000, type = "bootstrap") %>% 
   calculate(stat = "mean") %>%
   get_ci(level = 0.90))
  
 set.seed(12)
-(BootSamp1000 <- WL %>%  specify(response = WtLossKG) %>% 
+(BootSamp1000D <- samp %>%  specify(response = WtLossKG) %>% 
   generate(reps = 1000, type = "bootstrap") %>% 
   calculate(stat = "mean") %>%
   get_ci(level = 0.99))
@@ -161,10 +167,36 @@ set.seed(12)
 
 #### Part f)
 
+If you drew a different set of 1000 bootstrap samples and calculated the 95% bootstrap confidence 
+interval, how do you think the new interval will compare with the interval reported in part (d)? 
+Answer this before doing part (g) below. This question will only be graded for effort. 
+
+
+``` {r bootstrap 1000 samples with 95ci}
+n <- 93 
+samp <- WL %>% sample_n(size = n)
+(BootSamp1000E <- samp %>%  specify(response = WtLossKG) %>% 
+  generate(reps = 1000, type = "bootstrap") %>% 
+  calculate(stat = "mean") %>%
+  get_ci(level = 0.95))
+```
+
+
 
 #### Part g)
 ```{r bootstrap samples new}
 # no set.seed in this part
+n <- 93 
+samp <- WL %>% sample_n(size = n)
+(BootSamp1000F <- samp %>%  specify(response = WtLossKG) %>% 
+  generate(reps = 1000, type = "bootstrap") %>% 
+  calculate(stat = "mean") %>%
+  get_ci(level = 0.95))
+ 
+(BootSamp1000G <- samp %>%  specify(response = WtLossKG) %>% 
+  generate(reps = 1000, type = "bootstrap") %>% 
+  calculate(stat = "mean") %>%
+  get_ci(level = 0.95))
 
 ```
 
@@ -181,9 +213,21 @@ WL %>%  specify(response = WtLossKG) %>%
   get_ci(level = 0.95)
   
 set.seed(12) 
-
+n <- 100 
+samp <- WL %>% sample_n(size = n, replace = TRUE )
+(BootSamp1000H <- samp %>% specify(response = WtLossKG) %>% 
+  generate(reps = 500, type = "bootstrap") %>% 
+  calculate(stat = "mean") %>% 
+  get_ci(level = 0.95))
 
 set.seed(12)  
+n <- 10 
+samp <- WL %>% sample_n(size = n)
+(BootSamp1000F <- samp %>%  specify(response = WtLossKG) %>% 
+  generate(reps = 500, type = "bootstrap") %>% 
+  calculate(stat = "mean") %>%
+  get_ci(level = 0.95))
+
 
 ```
 
