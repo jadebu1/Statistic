@@ -83,6 +83,7 @@ h1 <- ggplot(data = PermsOut, aes(x = diff_perm)) +
   geom_histogram(bins = 13, colour = 1, fill = "white") + xlab("") + geom_vline(xintercept = origdiff, col="Red")
 h1
 ```
+
 The overall spread of the sample is unimodal and pretty symmetric, and although the observed sample is rare, it is where we expected it to be around 3.65. I think this observed difference is fairly skewed because of how different the two population groups are.
 
 #### Part e)
@@ -96,6 +97,7 @@ This P-value implies there is a significant difference between Apple Pie and Che
 
 
 #### Part f)
+
 From the hypothesis test allowed me to come to the conclusion that there is a large differences between the ZOD duration of the Apple Pie and the Cherry Pie population. Overall the mean for ZOD duration of Cherry Pie is 3.67 greater than the ZOD duration of Apple Pie as found by the observed difference for the statistical data is 3.67.
 
 ### Problem 3
@@ -155,12 +157,15 @@ samp <- WL %>% sample_n(size = n)
   generate(reps = 1000, type = "bootstrap") %>% 
   calculate(stat = "mean") %>%
   get_ci(level = 0.90))
+
  
 set.seed(12)
 (BootSamp1000D <- samp %>%  specify(response = WtLossKG) %>% 
   generate(reps = 1000, type = "bootstrap") %>% 
   calculate(stat = "mean") %>%
   get_ci(level = 0.99))
+
+
 
 ```
 
@@ -197,15 +202,13 @@ samp <- WL %>% sample_n(size = n)
   get_ci(level = 0.95))
 
 ```
-Draw  two  new  sets  of  1000  bootstrap  samples  using  the  93  observations  and  report  the  95%  
-bootstrap confidence intervals for each (do NOT plot the two new bootstrap distributions and do 
-NOT use set.seed). Do these intervals support what you wrote for part (f)? Explain. 
+
+
+Yes they do support what I wrote for part F, the first 1000 samples I drew had a lower bound of 3.542 and an upper bound of 6.336. The second set of samples I drew had a lower bound of 3.575 and an upper bound of 6.285
 
 #### Part h)
 
-If you drew smaller sized bootstrap samples and calculated the 95% bootstrap confidence interval, 
-how do you think the new intervals would compare with the interval reported in part (d)? Answer 
-this before doing part (i) below. This question will only be graded for effort. 
+I think the intervals would change by a larger number than when the confidence interval was set for 95 becuase of the smaller sample size.
 
 #### Part i)
 ```{r smaller bootstrap samples}
@@ -216,28 +219,27 @@ WL %>%  specify(response = WtLossKG) %>%
   generate(reps = 500, type = "bootstrap") %>% 
   calculate(stat = "mean") %>%
   get_ci(level = 0.95)
-  
-set.seed(12) 
+
 n <- 100 
-samp <- WL %>% sample_n(size = n, replace = TRUE )
+samp <- WL %>% sample_n(size = n, replace = TRUE )  
+set.seed(12) 
 (BootSamp1000H <- samp %>% specify(response = WtLossKG) %>% 
   generate(reps = 500, type = "bootstrap") %>% 
   calculate(stat = "mean") %>% 
   get_ci(level = 0.95))
 
-set.seed(12)  
 n <- 10 
 samp <- WL %>% sample_n(size = n)
+set.seed(12)  
 (BootSamp1000F <- samp %>%  specify(response = WtLossKG) %>% 
   generate(reps = 500, type = "bootstrap") %>% 
   calculate(stat = "mean") %>%
   get_ci(level = 0.95))
 
 ```
-Use set.seed(12) and draw three smaller sets (𝑛𝑛= 500, 100, and 10)  of bootstrap samples 
-using the 93 observations (before to reset the seed before each bootstrap draw). Report the 95% 
-bootstrap  confidence  intervals  for  each  of  these  new  sets.  Do  these  intervals  support  what  you 
-wrote for part (h)? Explain. 
+
+
+Yes these 95% confidence intervals do support what I wrote for part H. The first sample I took where n=500 had a very similar interval to that of the 1000 samples interval, the upper bound for this set was 6.2378 and the lower bound was 3.581. For the second set with 500 samples drawn from 100 (with replacement), had larger changes in it's upper/lower bounds than I have seen thus far with the upper bound = 6.883 and the Lower bound = 4.219. The final sample set with 500 samples out of 10 had a vastly different lower bound at 0.4965 and an upper bound at 7.10.
 
 
 ...
