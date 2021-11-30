@@ -1,0 +1,21 @@
+---
+title: "Homework 6"
+author: ""
+date: "`r Sys.Date()`"
+output: openintro::lab_report
+---
+
+```{r load-packages, message=FALSE}
+library(tidyverse)
+library(openintro)
+library(BSDA) # you must install this first
+```
+
+### Problem 1
+
+
+
+
+
+...
+
