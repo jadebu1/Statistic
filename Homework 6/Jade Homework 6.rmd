@@ -23,6 +23,7 @@ mean(ICE$Puzzle)
 sd(ICE$Puzzle)
 qt(0.05,199)
 tsum.test(mean(ICE$Puzzle), sd(ICE$Puzzle), 200, conf.level = 0.90)$conf.int
+t.test(ICE$Puzzle, conf.level = 0.90)
 
 ```
 Interpretation: we are 90 percent confident that the mean puzzle scores of high school students fall between 51.15 points and 53.65 points.
@@ -38,6 +39,7 @@ SDM
 DFM <- mean(Male$Puzzle) - mean(Female$Puzzle)
 DFM
 tsum.test(DFM, SDM, 200, conf.level = 0.90)$conf.int
+t.test(Male$Puzzle, Female$Puzzle, conf.level = 0.9)
 ```
 Interpetation: we are 90% confident the difference in means of puzzle scores between male and female high school students is about -0.997 and -1.126 points.
 
@@ -61,6 +63,8 @@ SDI
 MI <- mean(VAN$Video) - mean(CHOC$Video)
 MI
 tsum.test(MI, SDI, 200, conf.level = 0.90)$conf.int
+### not sure how to execute t.test, excuted both tsum.test and t.test
+t.test(VAN$Video, CHOC$Video, conf.level = 0.9)
 ```
 With these values we can infer that the difference in mean Video Game scores between chocolate and vanilla favorite ice cream flavors will fall between 3.82 and 4.17 with 90% confidence.
 #### Part C
@@ -69,9 +73,15 @@ In comparing both video game score means for vanilla and chocolate ice cream fla
 
 
 ### Problem 3
-
-
-
+SI = 1 CI = 99 df= 21
+```{r CI Smokers}
+BW <- read_csv("Birthweight.csv")
+SMOKER <- BW %>% filter(Smoker == "1")
+count(SMOKER)
+mean(BW$Smoker)
+sd(BW$Smoker)
+t.test(BW$Smoker, conf.level = 0.99)
+````
 ### Problem 4
 #### Part A
 
