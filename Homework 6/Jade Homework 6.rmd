@@ -13,6 +13,7 @@ library(BSDA) # you must install this first
 ```
 
 ### Problem 1
+#### Part A
 ``` {r count and find means}
 ICE <- read_csv("IceCream.csv")
 #alpha = 0.1 df=200-1=199
@@ -24,6 +25,11 @@ qt(0.05,199)
 tsum.test(mean(ICE$Puzzle), sd(ICE$Puzzle), 200, conf.level = 0.90)$conf.int
 
 ```
+Interpretation: we are 90 percent confident that the mean puzzle scores of high school students fall between 51.15 points and 53.65 points.
+
+
+#### Part B
+
 ```{r difference in mean puzzle scores}
 Male <- ICE %>% filter(Sex == "0")
 Female <- ICE %>% filter(Sex == "1")
@@ -33,6 +39,7 @@ DFM <- mean(Male$Puzzle) - mean(Female$Puzzle)
 DFM
 tsum.test(DFM, SDM, 200, conf.level = 0.90)$conf.int
 ```
+Interpetation: we are 90% confident the difference in means of puzzle scores between male and female high school students is about -5.98 and -1.126 points.
 
 
 
