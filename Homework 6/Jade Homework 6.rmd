@@ -8,14 +8,26 @@ output: openintro::lab_report
 ```{r load-packages, message=FALSE}
 library(tidyverse)
 library(openintro)
+library(rmarkdown)
 library(BSDA) # you must install this first
 ```
 
 ### Problem 1
+``` {r count and find means}
+ICE <- read_csv("IceCream.csv")
+#alpha = 0.1 df=200-1=199
+ICE %>% glimpse
+ICE %>% count(Puzzle)
+mean(ICE$Puzzle) 
+sd(ICE$Puzzle)
+qt(0.05,199)
+tsum.test(mean(ICE$Puzzle), sd(ICE$Puzzle), 200)$conf.int
+
+```
 
 
 
 
 
-...
+
 
