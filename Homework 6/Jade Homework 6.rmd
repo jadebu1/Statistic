@@ -21,8 +21,17 @@ ICE %>% count(Puzzle)
 mean(ICE$Puzzle) 
 sd(ICE$Puzzle)
 qt(0.05,199)
-tsum.test(mean(ICE$Puzzle), sd(ICE$Puzzle), 200)$conf.int
+tsum.test(mean(ICE$Puzzle), sd(ICE$Puzzle), 200, conf.level = 0.90)$conf.int
 
+```
+```{r difference in mean puzzle scores}
+Male <- ICE %>% filter(Sex == "0")
+Female <- ICE %>% filter(Sex == "1")
+SDM <- sd(Male$Puzzle) - mean(Female$Puzzle)
+SDM
+DFM <- mean(Male$Puzzle) - mean(Female$Puzzle)
+DFM
+tsum.test(DFM, SDM, 200, conf.level = 0.90)$conf.int
 ```
 
 
