@@ -244,3 +244,5 @@ Yes these 95% confidence intervals do support what I wrote for part H. The first
 
 ...
 
+fix incorrect commit comment
+
