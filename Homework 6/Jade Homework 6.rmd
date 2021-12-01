@@ -33,13 +33,72 @@ Interpretation: we are 90 percent confident that the mean puzzle scores of high 
 ```{r difference in mean puzzle scores}
 Male <- ICE %>% filter(Sex == "0")
 Female <- ICE %>% filter(Sex == "1")
-SDM <- sd(Male$Puzzle) - mean(Female$Puzzle)
+SDM <- sd(Male$Puzzle) - sd(Female$Puzzle)
 SDM
 DFM <- mean(Male$Puzzle) - mean(Female$Puzzle)
 DFM
 tsum.test(DFM, SDM, 200, conf.level = 0.90)$conf.int
 ```
-Interpetation: we are 90% confident the difference in means of puzzle scores between male and female high school students is about -5.98 and -1.126 points.
+Interpetation: we are 90% confident the difference in means of puzzle scores between male and female high school students is about -0.997 and -1.126 points.
+
+### Problem 2
+#### Part A
+van-choc
+Sig level = 10%
+CI = 90
+```{r subsets and SDs}
+CHOC <- ICE %>% filter(Flavor == "2") 
+CHS <- sd(CHOC$Video)
+CHS
+VAN <- ICE %>% filter(Flavor == "1")
+VHS <- sd(VAN$Video)
+VHS
+```
+#### Part B
+```{r comparing means}
+SDI <- VHS - CHS
+SDI
+MI <- mean(VAN$Video) - mean(CHOC$Video)
+MI
+tsum.test(MI, SDI, 200, conf.level = 0.90)$conf.int
+```
+With these values we can infer that the difference in mean Video Game scores between chocolate and vanilla favorite ice cream flavors will fall between 3.82 and 4.17 with 90% confidence.
+#### Part C
+
+In comparing both video game score means for vanilla and chocolate ice cream flavors, we can tell that on average those who prefer chocolate will most likely have a greater video game score denoted by the negative difference between video games scores when we subtract the vanilla mean from the chocolate mean.
+
+
+### Problem 3
+
+
+
+### Problem 4
+#### Part A
+
+
+
+#### Part B
+
+
+
+#### Part C
+
+
+
+### Problem 5
+#### Part A
+
+
+
+#### Part B
+
+
+### Problem 6
+#### Part A
+
+
+
+#### Part B
 
 
 
