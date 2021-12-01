@@ -41,6 +41,7 @@ DFM
 tsum.test(DFM, SDM, 200, conf.level = 0.90)$conf.int
 t.test(Male$Puzzle, Female$Puzzle, conf.level = 0.9)
 ```
+
 Interpetation: we are 90% confident the difference in means of puzzle scores between male and female high school students is about -0.997 and -1.126 points.
 
 ### Problem 2
@@ -67,6 +68,7 @@ tsum.test(MI, SDI, 200, conf.level = 0.90)$conf.int
 t.test(VAN$Video, CHOC$Video, conf.level = 0.9)
 ```
 With these values we can infer that the difference in mean Video Game scores between chocolate and vanilla favorite ice cream flavors will fall between 3.82 and 4.17 with 90% confidence.
+
 #### Part C
 
 In comparing both video game score means for vanilla and chocolate ice cream flavors, we can tell that on average those who prefer chocolate will most likely have a greater video game score denoted by the negative difference between video games scores when we subtract the vanilla mean from the chocolate mean.
@@ -77,29 +79,80 @@ SI = 1 CI = 99 df= 21
 ```{r CI Smokers}
 BW <- read_csv("Birthweight.csv")
 SMOKER <- BW %>% filter(Smoker == "1")
+NONSMOKER <- BW %>% filter(Smoker == "0")
 count(SMOKER)
+count(NONSMOKER)
 mean(BW$Smoker)
 sd(BW$Smoker)
 t.test(BW$Smoker, conf.level = 0.99)
-````
+```
+With this data we have 99% confidence that the mean proportion of participants who's mothers were smokers will fall between 0.313 and 0.734 which is accurate with the true mean of the proportion of population falling at 52%.
+
 ### Problem 4
 #### Part A
 
+```{r low birthweight}
+#SL = 0.01 df = 42-1=41 p-value = 1.682878
+count(BW)
+Q <- qt(0.05,41)
+Q
+mean(SMOKER$LowBWt)
+mean(NONSMOKER$LowBWt)
+sd(SMOKER$LowBWt)
+sd(NONSMOKER$LowBWt)
+```
+``` {r test}
+#Smoker CI
+SE = 0.42 / sqrt(42)
+SE
+C1 = mean(SMOKER$LowBWt) - qt(0.05,1) * (SE)
+C2 = mean(SMOKER$LowBWt) + qt(0.05,1) * (SE)
+C1 
+C2
+# We can see here that 11.820% to 33.63% of babies who's mothers were smokers are born with a low birthweight.
 
+#non smoker CI
+C3 = mean(NONSMOKER$LowBWt) - qt(0.05,1) * (SE)
+C4 = mean(NONSMOKER$LowBWt) + qt(0.05,1) * (SE)
+C3
+C4
 
+# We can also see that the proportion of babies with a low birthweight who's mothers were non-smokers lies between 5% to 15%
+
+```
 #### Part B
+```{r proptest birthweight}
+count(SMOKER %>% filter(LowBWt == "1"))
+count(SMOKER)
+#5 smokers had low birthweight out of 22 smokers
 
+count(NONSMOKER %>% filter(LowBWt == "1"))
+count(NONSMOKER) 
+# 1 nonsmokers had a low birthweight out of 20 nonsmokers
 
+prop.test(x = c(5, 1), n = c(22, 20))
 
+count(LowBWt)
+
+```
 #### Part C
 
-
+I beleive the sample size is large enough as it is <40 and the hypothesis that the proportion of low birthweight babies is higher for mothers that smoked is indeed true.
 
 ### Problem 5
 #### Part A
+```{r Cholesterol}
+#oat bran - cornflake 
+# 5% SI, 95% CI
+CHOL <- read_csv("Cholesterol.csv")
+Corn <- CHOL %>% filter(Cereal == "Cornflk")
+mean(Corn$Cholesterol) #5.645
+sd(Corn$Cholesterol) #0.788
+Oat <- CHOL %>% filter(Cereal == "OatBran")
+mean(Oat$Cholesterol) #5.3
+sd(Oat$Cholesterol) #0.8838552
 
-
-
+```
 #### Part B
 
 
