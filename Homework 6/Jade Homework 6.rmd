@@ -136,7 +136,7 @@ I beleive the sample size is large enough as it is <40 and the hypothesis that t
 
 ### Problem 5
 #### Part A
-```{r Cholesterol}
+```{r Cholesterol w/ SL}
 #oat bran - cornflake 
 # 5% SI, 95% CI
 CHOL <- read_csv("Cholesterol.csv")
@@ -146,13 +146,14 @@ sd(Corn$Cholesterol) #0.788
 Oat <- CHOL %>% filter(Cereal == "OatBran")
 mean(Oat$Cholesterol) #5.3
 sd(Oat$Cholesterol) #0.8838552
-t.test(Oat$Cholesterol, Corn$Cholesterol, sigma = 0.05)
+t.test(Oat$Cholesterol, Corn$Cholesterol, paired = TRUE, sigma = 0.05)
 ```
 #### Part B
 ```{r t.test with CI}
-t.test(Oat$Cholesterol, Corn$Cholesterol, conf.level = 0.95)
-
+t.test(Oat$Cholesterol, Corn$Cholesterol, paired = TRUE, conf.level = 0.90)
 ```
+
+I chose the confidence level of 90% to test the claim that Oat Bran decrease serum cholesterol. With this confidence interval we can determine that there is 95% confidence that the mean decrease in serum cholesterol will fall between 5.3 and 5.645mmol/L. The mean of the differences between Oat Bran serum cholestorl and that of Corn Flake cholesterol is 0.345.
 
 ### Problem 6
 #### Part A
