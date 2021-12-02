@@ -157,10 +157,16 @@ I chose the confidence level of 90% to test the claim that Oat Bran decrease ser
 
 ### Problem 6
 #### Part A
-
-
-
+```{r tsum.test}
+tsum.test(20.38, 3.91, 15, 21.57, 3.87, 20, var.equal = TRUE, conf.level = .95)
+```
+With 95% confidence we can see that the difference between the means of the placebo and treatment groups will fall between -3.8 to 1.5 and with a confidence level of 
 #### Part B
+```{r tsum.test 2}
+tsum.test(20.38, 3.91, 15, 21.57, 3.87, 20, alternative = "greater", conf.level = .95)
+```
+
+I agree with the equal population variances as the data returned by the original tsum.test demonstrates very similar means between the placebo and treatment groups.
 
 
 
